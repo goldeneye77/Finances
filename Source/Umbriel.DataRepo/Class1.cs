@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace DataRepo
+﻿namespace Umbriel.DataRepo
 {
     public class Class1
     {
