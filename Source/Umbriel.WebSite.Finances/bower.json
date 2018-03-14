@@ -4,6 +4,7 @@
   "dependencies": {
     "ag-grid": "16.0.1",
     "jQuery": "3.3.1",
-    "bootstrap": "v4.0.0"
+    "bootstrap": "v4.0.0",
+    "popper.js": "v1.12.9"
   }
 }
