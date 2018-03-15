@@ -1,10 +1,10 @@
-namespace Umbriel.Data
-{
-    using System;
-    using System.Collections.Generic;
-    using System.Data;
-    using Dapper;
+using System;
+using System.Collections.Generic;
+using System.Data;
+using Dapper;
 
+namespace Umbriel.Data.Framework
+{
     public interface IDataRepository : IDisposable
     {
         void Execute(

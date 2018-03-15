@@ -16,6 +16,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Umbriel.Data.Managers\Umbriel.Data.Managers.csproj" />
+    <ProjectReference Include="..\Umbriel.Data\Umbriel.Data.csproj" />
     <ProjectReference Include="..\Umbriel.Models\Umbriel.Models.csproj" />
   </ItemGroup>
 

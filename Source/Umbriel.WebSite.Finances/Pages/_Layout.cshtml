@@ -36,8 +36,13 @@
         <li class="nav-item">
             <a class="nav-link" href="#">Net Worth</a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link disabled" href="#">Other</a>
+        <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">Other</a>
+            <div class="dropdown-menu">
+                <a class="dropdown-item" asp-page="/User">Users</a>
+                <a class="dropdown-item" href="#">Other2</a>
+                <a class="dropdown-item" href="#">Other3</a>
+            </div>
         </li>
     </ul>
 

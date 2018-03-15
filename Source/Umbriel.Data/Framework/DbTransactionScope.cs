@@ -1,8 +1,7 @@
-﻿namespace Umbriel.Data
-{
-    using System;
-    using System.Transactions;
+﻿using System.Transactions;
 
+namespace Umbriel.Data.Framework
+{
     public class DbTransactionScope : IDbTransactionScope
 	{
         private TransactionScope transactionScope;
