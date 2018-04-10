@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
@@ -8,6 +9,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Umbriel.Data;
+using Umbriel.Data.Enums;
 using Umbriel.Data.Framework;
 using Umbriel.Data.Managers;
 using Umbriel.Models.Interfaces.Managers;
@@ -29,7 +31,29 @@ namespace Umbriel.WebSite.Finances
         {
             services.AddMvc();
 
-            IDataRepository repository = new DataRepository(this.Configuration);
+            DatabaseType databaseType;
+
+            bool useSqliteDb = Convert.ToBoolean(this.Configuration.GetSection("UseSqliteDb").Value);
+
+            string connectionString;
+
+            if (useSqliteDb)
+            {
+                databaseType = DatabaseType.Sqlite;
+                string relativePath = this.Configuration.GetSection("SqliteDbPath").Value;
+                string currentPath = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().GetName().CodeBase);
+                string absolutePath = Path.Combine(currentPath, relativePath);
+                absolutePath = absolutePath.Remove(0, 6);//this code is written to remove file word from absolute path
+                connectionString = string.Format("Data Source={0}", absolutePath);
+            }
+            else
+            {
+                databaseType = DatabaseType.SqlServer;
+                string databaseToUse = this.Configuration.GetSection("DatabaseToUse").Value;
+                connectionString = this.Configuration.GetConnectionString(databaseToUse);
+            }
+            
+            IDataRepository repository = new DataRepository(databaseType, connectionString);
 
             // Inject IDataRepository, with implementation from DataRepository class.
             services.AddTransient(sp => repository);

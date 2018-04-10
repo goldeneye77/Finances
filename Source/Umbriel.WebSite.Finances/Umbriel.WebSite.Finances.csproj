@@ -3,6 +3,7 @@
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
     <TypeScriptToolsVersion>2.6</TypeScriptToolsVersion>
+    <Platforms>AnyCPU;x86</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
@@ -19,6 +20,12 @@
     <ProjectReference Include="..\Umbriel.Data.Managers\Umbriel.Data.Managers.csproj" />
     <ProjectReference Include="..\Umbriel.Data\Umbriel.Data.csproj" />
     <ProjectReference Include="..\Umbriel.Models\Umbriel.Models.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Database\Finances.sqlite">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

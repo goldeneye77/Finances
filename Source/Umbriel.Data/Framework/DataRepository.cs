@@ -1,19 +1,20 @@
-using System.Collections.Generic;
-using System.Data;
-using System.Data.Common;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Transactions;
-using Dapper;
-using Microsoft.Extensions.Configuration;
-
 namespace Umbriel.Data.Framework
 {
-    //using Microsoft.Data.Sqlite;
+    using System;
+    using System.Collections.Generic;
+    using System.Data;
+    using System.Data.Common;
+    using System.Data.SqlClient;
+    using System.Linq;
+    using System.Transactions;
+
+    using Enums;
+    using Dapper;
+    using Microsoft.Data.Sqlite;
 
     public class DataRepository : IDataRepository
     {
-        public IConfiguration Configuration { get; set; }
+        private DatabaseType DatabaseType { get; set; }
 
         private string DbConnectionString { get; set; }
 
@@ -21,28 +22,41 @@ namespace Umbriel.Data.Framework
         {
             get
             {
-                IDbConnection dbConnection = new SqlConnection(this.DbConnectionString);
+                IDbConnection dbConnection = null;
 
-                if (dbConnection.State != ConnectionState.Open)
+                switch (this.DatabaseType)
+                {
+                    case DatabaseType.SqlServer:
+                        dbConnection = new SqlConnection(this.DbConnectionString);
+                        break;
+                    case DatabaseType.Sqlite:
+                        dbConnection = new SqliteConnection(this.DbConnectionString);
+                        break;
+                    case DatabaseType.Unknown:
+                        break;
+                    default:
+                        throw new ArgumentOutOfRangeException();
+                }
+
+                if (dbConnection != null && dbConnection.State != ConnectionState.Open)
                 {
                     dbConnection.Open();
                 }
 
                 if (Transaction.Current != null)
                 {
-                    // join the existing transaction
-                    ((DbConnection)dbConnection).EnlistTransaction(Transaction.Current);
+                    // enlist with the existing transaction
+                    ((DbConnection)dbConnection)?.EnlistTransaction(Transaction.Current);
                 }
 
                 return dbConnection;
             }
         }
 
-        public DataRepository(IConfiguration configuration)
+        public DataRepository(DatabaseType databaseType, string dbConnectionString)
         {
-            this.Configuration = configuration;
-
-            this.DbConnectionString = this.Configuration.GetConnectionString("FinancesDbContext");
+            this.DatabaseType = databaseType;
+            this.DbConnectionString = dbConnectionString;
         }
 
         /// <inheritdoc />

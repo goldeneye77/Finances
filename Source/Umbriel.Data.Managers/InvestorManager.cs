@@ -18,7 +18,8 @@ namespace Umbriel.Data.Managers
 
         public IReadOnlyList<Investor> GetAllInvestors()
         {
-            return this.DataRepo.Execute<Investor>(StoredProcs.GetAllInvestors).ToList().AsReadOnly();
+            string sql = "SELECT InvestorId, InvestorFirstName AS FirstName, InvestorLastName AS LastName FROM Investors";
+            return this.DataRepo.Execute<Investor>(sql, System.Data.CommandType.Text).ToList().AsReadOnly();
         }
     }
 
