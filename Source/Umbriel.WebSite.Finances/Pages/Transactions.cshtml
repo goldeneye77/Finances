@@ -1,0 +1,48 @@
+@page
+@using Umbriel.Models;
+@model Umbriel.WebSite.Finances.Pages.TransactionModel
+@{
+    ViewData["Title"] = "Investor Transactions";
+    Layout = "~/Pages/_Layout.cshtml";
+}
+<br />
+<br />
+<h2>Transactions</h2>
+<br />
+<table class="table table-striped">
+    <tr>
+        <th>Date</th>
+        <th>Stock</th>
+        <th>Trx. Type</th>
+        <th>Account</th>
+        <th>Qty</th>
+        <th>Price</th>
+        <th>Investor</th>
+    </tr>
+    @foreach (Transaction t in Model.TransactionList)
+    {
+        <tr>
+            <td>
+                <label>@t.TransactionDate</label>
+            </td>
+            <td>
+                <label>@t.TransactionTypeName</label>
+            </td>
+            <td>
+                <label>@(t.Account.Name + ": " + t.Account.CurrencyTypeName)</label>
+            </td>
+            <td>
+                <label>@t.Security.Name</label>
+            </td>
+            <td>
+                <label>@t.Quantity</label>
+            </td>
+            <td>
+                <label>@("$" + t.Price)</label>
+            </td>
+            <td>
+                <label>@(t.Investor.FirstName + " " + t.Investor.LastName)</label>
+            </td>
+        </tr>
+    }
+</table>

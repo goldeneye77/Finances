@@ -52,13 +52,13 @@ namespace Umbriel.WebSite.Finances
                 string databaseToUse = this.Configuration.GetSection("DatabaseToUse").Value;
                 connectionString = this.Configuration.GetConnectionString(databaseToUse);
             }
-            
-            IDataRepository repository = new DataRepository(databaseType, connectionString);
 
             // Inject IDataRepository, with implementation from DataRepository class.
+            IDataRepository repository = new DataRepository(databaseType, connectionString);
             services.AddTransient(sp => repository);
 
             services.AddTransient<IInvestorManager>(im => new InvestorManager(repository));
+            services.AddTransient<ITransactionManager>(tm => new TransactionManager(repository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

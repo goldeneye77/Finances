@@ -86,6 +86,18 @@ namespace Umbriel.Data.Framework
         }
 
         /// <inheritdoc />
+        public DataGridReader QueryMultiple(
+            string commandText,
+            CommandType? commandType = CommandType.StoredProcedure,
+            DynamicParameters param = null,
+            IDbTransaction transaction = null)
+        {
+            IDbConnection connection = this.DbConnection;
+
+            return new DataGridReader(connection, connection.QueryMultiple(commandText, param, transaction, null, commandType));
+        }
+
+        /// <inheritdoc />
         public IDbTransactionScope BeginTransactionScope()
         {
             return new DbTransactionScope();

@@ -19,6 +19,12 @@ namespace Umbriel.Data.Framework
             DynamicParameters parameters = null,
             IDbTransaction transaction = null);
 
+        DataGridReader QueryMultiple(
+            string commandText,
+            CommandType? commandType = CommandType.StoredProcedure,
+            DynamicParameters parameters = null,
+            IDbTransaction transaction = null);
+
         IDbTransactionScope BeginTransactionScope();
     }
 }
